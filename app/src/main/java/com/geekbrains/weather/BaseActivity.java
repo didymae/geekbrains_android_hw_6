@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +30,8 @@ public class BaseActivity extends AppCompatActivity
     boolean isExistAction;  // Можно ли расположить рядом фрагмент
     String country;
     String name;
+    private static final String BA = "BA";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,13 +81,19 @@ public class BaseActivity extends AppCompatActivity
             // выводим фрагмент
             if (detail == null) {
                 startActionFragment();
+
             }
         }
+        if (getResources().getConfiguration().orientation != ORIENTATION_LANDSCAPE) {
+            if (country == null) {
+                addMainFragment(WeatherFragment.newInstance(DEFAULT_COUNTRY));}
 
-        if (country == null)
-        {        addMainFragment(WeatherFragment.newInstance(DEFAULT_COUNTRY));}
-        else replaceMainFragment(WeatherFragment.newInstance(country));
+        else {
+                replaceMainFragment(WeatherFragment.newInstance(country));
+            }
+         }
     }
+
 
     //
     //  private void addFragment(Fragment fragment,R.id id) {
@@ -182,6 +191,7 @@ public class BaseActivity extends AppCompatActivity
                 .add(R.id.main_frame, fragment)
                 .addToBackStack("")
                 .commit();
+
     }
 
     public void replaceMainFragment(Fragment fragment) {
@@ -191,6 +201,7 @@ public class BaseActivity extends AppCompatActivity
                 .replace(R.id.main_frame, fragment)
                 .addToBackStack("")
                 .commit();
+
     }
 
 
